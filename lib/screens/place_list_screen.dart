@@ -9,7 +9,14 @@ class PlacesListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Your Places',style:  Theme.of(context).textTheme.headline1),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: (){},
+        ),
+      ],
       ),
+
     );
   }
 }
