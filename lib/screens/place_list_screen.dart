@@ -22,22 +22,25 @@ class PlacesListScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Consumer<GreatPlaces>(
-        child: Center(
-          child: Text('Start Adding the Places your Visiting'),
+      body: FutureBuilder(
+        future: Provider.of<GreatPlaces>(context,listen: false).fetchAndSetPlaces(),
+        builder:(ctx,snapshot)=>snapshot.connectionState == ConnectionState.waiting ? Center(child: CircularProgressIndicator(),) : Consumer<GreatPlaces>(
+          child: Center(
+            child: Text('Start Adding the Places your Visiting'),
+          ),
+          builder: (ctx, greatPlaces, ch) => greatPlaces.items.length <= 0
+              ? ch
+              : GridView.builder(
+            padding: const EdgeInsets.all(10.0),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 3 / 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10),
+                  itemBuilder: (ctx, i) => PlaceItem(greatPlaces.items[i].id, greatPlaces.items[i].title, greatPlaces.items[i].image),
+                  itemCount: greatPlaces.items.length,
+                ),
         ),
-        builder: (ctx, greatPlaces, ch) => greatPlaces.items.length <= 0
-            ? ch
-            : GridView.builder(
-          padding: const EdgeInsets.all(10.0),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 3 / 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10),
-                itemBuilder: (ctx, i) => PlaceItem(greatPlaces.items[i].id, greatPlaces.items[i].title, greatPlaces.items[i].image),
-                itemCount: greatPlaces.items.length,
-              ),
       ),
     );
   }

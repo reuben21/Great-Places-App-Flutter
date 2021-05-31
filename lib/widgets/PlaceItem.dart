@@ -25,7 +25,7 @@ class PlaceItem extends StatelessWidget {
               tag: id,
               child: FadeInImage(
                 placeholder:
-                    AssetImage('assets/images/product-placeholder.png'),
+                    AssetImage('assets/images/NoImageFound.png'),
                 image: FileImage(imageUrl),
                 fit: BoxFit.cover,
               ),
