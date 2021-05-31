@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:great_places_app/colors.dart';
+import 'package:great_places_app/providers/great_places.dart';
 import 'package:great_places_app/widgets/image_input.dart';
+import 'package:provider/provider.dart';
 
 class AddPlaceScreen extends StatefulWidget {
   static const routeName = '/add-place';
@@ -34,6 +36,15 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       _pickedImage = pickedImage;
     }
 
+    void _savePlace() {
+      if(_titleController.text.isEmpty || _pickedImage == null) {
+        return;
+      }
+      print(_titleController.text);
+      Provider.of<GreatPlaces>(context,listen: false).addPlace(_titleController.text, _pickedImage);
+      Navigator.of(context).pop();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Add A New Place'),
@@ -62,7 +73,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
             ),
           )),
           RaisedButton.icon(
-              onPressed: () {},
+              onPressed: _savePlace ,
               icon: Icon(Icons.add),
               label: Text('Add Place'),
             elevation: 0,
