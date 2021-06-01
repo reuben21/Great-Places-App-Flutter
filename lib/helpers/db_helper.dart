@@ -24,29 +24,33 @@ class DBProvider {
       String path = join(databasesPath, 'places.db');
       return await openDatabase(path, version: 2,
           onCreate: (Database db, int version) async {
-            await db.execute("""
+        await db.execute("""
           CREATE TABLE IF NOT EXISTS user_places ( 
           id TEXT PRIMARY KEY,
           title TEXT,
-          image TEXT
+          image TEXT,
+          loc_lat REAL,
+          loc_lng REAL,
+          address TEXT
           );
           """);
-          });
+      });
     } catch (error) {
       print(error);
     }
   }
 
-  Future<void> insertPlaces(String id, String title, String image) async {
+  Future<void> insertPlaces(String id, String title, String image, double lat,
+      double lng, String address) async {
     print("New User Session");
     try {
       final db = await database;
 
       var res = await db.rawInsert(''' 
     INSERT INTO user_places (
-    id,title,image
-    ) VALUES (?,?,?)
-    ''', [id, title, image]);
+    id, title, image, loc_lat, loc_lng, address
+    ) VALUES (?,?,?,?,?,?)
+    ''', [id, title, image,lat,lng,address]);
       return res;
     } catch (error) {
       print(error);
@@ -57,14 +61,14 @@ class DBProvider {
     print("New User Session");
     try {
       final db = await database;
-      var delete = await db.rawInsert( '''DELETE FROM user_places''');
+      var delete = await db.rawInsert('''DELETE FROM user_places''');
       print("Deleted Session");
     } catch (error) {
       print(error);
     }
   }
 
-  Future<List<Map<String,dynamic>>> getPlaces() async {
+  Future<List<Map<String, dynamic>>> getPlaces() async {
     final db = await database;
     var res = await db.query("user_places");
     if (res.length == 0) {

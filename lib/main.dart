@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
             bodyText1: GoogleFonts.roboto(fontSize: 15,color:kPrimaryColorAccent ),
             headline5:  GoogleFonts.roboto(fontSize: 12,color:kPrimaryColorAccent ),
             headline4:  GoogleFonts.roboto(fontSize: 14,color:kPrimaryColorAccent ),
-            headline3:  GoogleFonts.roboto(fontSize: 16,color:kPrimaryColorAccent ),
+            headline3:  GoogleFonts.roboto(fontSize: 16,color:kSecondaryColor ),
             headline2:  GoogleFonts.roboto(fontSize: 18,color:kPrimaryColorAccent ),
             headline1:  GoogleFonts.lato(fontSize: 25,color:kPrimaryColorAccent ),
           ),

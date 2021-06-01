@@ -33,11 +33,11 @@ class PlacesListScreen extends StatelessWidget {
               : GridView.builder(
             padding: const EdgeInsets.all(10.0),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 3 / 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10),
-                  itemBuilder: (ctx, i) => PlaceItem(greatPlaces.items[i].id, greatPlaces.items[i].title, greatPlaces.items[i].image),
+                crossAxisCount: 1,
+                childAspectRatio: 6 / 2,
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 5),
+                  itemBuilder: (ctx, i) => PlaceItem(greatPlaces.items[i].id, greatPlaces.items[i].title, greatPlaces.items[i].image,greatPlaces.items[i].location),
                   itemCount: greatPlaces.items.length,
                 ),
         ),
