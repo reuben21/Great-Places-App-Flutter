@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:great_places_app/models/place.dart';
+import 'package:great_places_app/screens/place_detail_screen.dart';
 import '../colors.dart';
 
 class PlaceItem extends StatelessWidget {
@@ -22,7 +23,9 @@ class PlaceItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(14),
       child: GridTile(
         child: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed(PlaceDetailScreen.routeName,arguments:id );
+            },
             child: Hero(
               tag: id,
               child: FadeInImage(

@@ -39,6 +39,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    print(widget.initialLocation.latitude);
     return Scaffold(
       appBar: AppBar(
         title: Text('Your Map', style: Theme.of(context).textTheme.headline1),
@@ -46,9 +47,11 @@ class _MapScreenState extends State<MapScreen> {
           if (widget.isSelecting)
             IconButton(
               icon: Icon(Icons.check),
-              onPressed:_pickedLocation == null ? null : () {
-                Navigator.of(context).pop(_pickedLocation);
-              },
+              onPressed: _pickedLocation == null
+                  ? null
+                  : () {
+                      Navigator.of(context).pop(_pickedLocation);
+                    },
             ),
         ],
       ),
@@ -58,9 +61,15 @@ class _MapScreenState extends State<MapScreen> {
                 widget.initialLocation.longitude),
             zoom: 13),
         onTap: widget.isSelecting ? _selectPlace : null,
-        markers: _pickedLocation == null
+        markers: (_pickedLocation == null && widget.isSelecting)
             ? {}
-            : {Marker(markerId: MarkerId('m1'), position: _pickedLocation)},
+            : {
+                Marker(
+                    markerId: MarkerId('m1'),
+                    position: _pickedLocation ??
+                        LatLng(widget.initialLocation.latitude,
+                            widget.initialLocation.longitude))
+              },
       ),
     );
   }
