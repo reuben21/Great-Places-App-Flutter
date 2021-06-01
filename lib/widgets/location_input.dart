@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:great_places_app/colors.dart';
 import 'package:great_places_app/helpers/location_helper.dart';
+import 'package:great_places_app/screens/map_screen.dart';
 import 'package:location/location.dart';
 
 class LocationInput extends StatefulWidget {
@@ -49,8 +50,6 @@ class _LocationInputState extends State<LocationInput> {
     }
 
     _locationData = await location.getLocation();
-    print(_locationData.latitude);
-    print(_locationData.longitude);
     final staticMapImageUrl = LocationHelper.generateLocationPreviewImage(
         latitude: _locationData.latitude, longitude: _locationData.longitude);
     setState(() {
@@ -58,6 +57,18 @@ class _LocationInputState extends State<LocationInput> {
     });
   }
 
+  Future<void> _selectOnMap() async {
+   final selectedLocation = await Navigator.of(context).push(MaterialPageRoute(
+     fullscreenDialog: true,
+        builder: (ctx) => MapScreen(
+              isSelecting: true,
+            )));
+   if(selectedLocation == null ) {
+     return;
+   }else {
+     print("Location Selected from Maps");
+   }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,26 +83,24 @@ class _LocationInputState extends State<LocationInput> {
             alignment: Alignment.center,
             child: _previewImageUrl == null
                 ? Text(
-              'No Location Chosen',
-              textAlign: TextAlign.center,
-            )
+                    'No Location Chosen',
+                    textAlign: TextAlign.center,
+                  )
                 : Image.network(
-              _previewImageUrl,
-              fit: BoxFit.cover,
-              width: double.infinity,
-            )),
-        Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextButton.icon(
-                  onPressed: _getCurrentUserLocation,
-                  icon: Icon(Icons.location_on),
-                  label: Text('Current Location')),
-              TextButton.icon(
-                  onPressed: () {},
-                  icon: Icon(Icons.map),
-                  label: Text('Select On Map'))
-            ])
+                    _previewImageUrl,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  )),
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+          TextButton.icon(
+              onPressed: _getCurrentUserLocation,
+              icon: Icon(Icons.location_on),
+              label: Text('Current Location')),
+          TextButton.icon(
+              onPressed: _selectOnMap,
+              icon: Icon(Icons.map),
+              label: Text('Select On Map'))
+        ])
       ],
     );
   }
